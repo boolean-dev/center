@@ -9,12 +9,25 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <artifactId>center-web</artifactId>
-    <version>${febs.version}</version>
+    <version>${center-version}</version>
     <name>center-web</name>
     <description>Demo project for Spring Boot</description>
 
     <dependencies>
 
+        <!-- thymeleaf begin-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.thymeleaf.extras</groupId>
+            <artifactId>thymeleaf-extras-springsecurity4</artifactId>
+            <version>3.0.4.RELEASE</version>
+        </dependency>
+
+        <!-- thymeleaf end -->
 
     </dependencies>
 

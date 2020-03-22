@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <artifactId>center-common</artifactId>
-    <version>${febs.version}</version>
+    <version>${center-version}</version>
     <name>center-common</name>
     <description>Demo project for Spring Boot</description>
 

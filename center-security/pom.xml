@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <artifactId>center-security</artifactId>
-    <version>${febs.version}</version>
+    <version>${center-version}</version>
     <name>center-security</name>
     <description>Demo project for Spring Boot</description>
 
