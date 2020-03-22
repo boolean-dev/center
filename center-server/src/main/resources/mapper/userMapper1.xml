@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="AdminMapper">
+
+    <resultMap id="BaseResultMap" type="com.hztuen.entity.Admin">
+        <id column="id" property="id" jdbcType="BIGINT" />
+        <result column="username" property="username" jdbcType="VARCHAR" />
+        <result column="password" property="password" jdbcType="VARCHAR" />
+        <result column="email" property="email" jdbcType="VARCHAR" />
+        <result column="name" property="name" jdbcType="VARCHAR" />
+        <result column="department" property="department" jdbcType="VARCHAR" />
+        <result column="loginFailureCount" property="loginFailureCount" jdbcType="INTEGER" />
+        <result column="isLocked" property="isLocked" jdbcType="BIT" />
+        <result column="lockedDate" property="lockedDate" jdbcType="TIMESTAMP" />
+        <result column="loginDate" property="loginDate" jdbcType="TIMESTAMP" />
+        <result column="loginIp" property="loginIp" jdbcType="VARCHAR" />
+        <result column="head_img_url" property="headImgUrl" jdbcType="VARCHAR" />
+        <result column="createDate" property="createDate" jdbcType="TIMESTAMP" />
+        <result column="modifyDate" property="modifyDate" jdbcType="TIMESTAMP" />
+        <result column="orders" property="orders" jdbcType="BIGINT" />
+    </resultMap>
+
+    <sql id="columns">
+		id,
+		username,
+		password,
+		email,
+		name,
+		department,
+		loginFailureCount,
+		isLocked,
+		lockedDate,
+		loginDate,
+		loginIp,
+		head_img_url,
+		createDate,
+		modifyDate,
+		orders
+	</sql>
+
+    <!-- 查找分页 -->
+    <select id="findPage" parameterType="map" resultType="Admin">
+        SELECT
+        <include refid="columns" />
+        FROM TB_ADMIN t
+        WHERE 1 = 1
+        <if test="username != null and username != ''">
+            and t.username like CONCAT('%', #{username},'%')
+        </if>
+        <if test="name != null and name != ''">
+            and t.name like CONCAT('%', #{name},'%')
+        </if>
+        <if test="department != null and department != ''">
+            and t.department like CONCAT('%', #{department},'%')
+        </if>
+        ORDER BY id DESC
+        LIMIT #{startIndex},#{pageSize}
+    </select>
+
+    <!-- 保存 -->
+    <insert id="save" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO tb_admin
+        (
+        <include refid="columns" />
+        )
+        VALUES
+        (
+        null,
+        #{username},
+        #{password},
+        #{email},
+        #{name},
+        #{department},
+        #{loginFailureCount},
+        #{isLocked},
+        #{lockedDate},
+        #{loginDate},
+        #{loginIp},
+        #{headImgUrl},
+        #{createDate},
+        #{modifyDate},
+        #{orders}
+        )
+    </insert>
+
+    <!-- 根据id查找 -->
+    <select id="findById" parameterType="Long" resultMap="BaseResultMap">
+        SELECT
+        <include refid="columns" />
+        FROM TB_ADMIN t
+        WHERE t.id = #{id}
+    </select>
+
+    <!-- 根据用户名username查找 -->
+    <select id="findByUserName" parameterType="map" resultMap="BaseResultMap">
+        SELECT
+        <include refid="columns" />
+        FROM TB_ADMIN t
+        WHERE t.username = #{username}
+    </select>
+
+    <insert id="saveRoles">
+        insert into tb_admin_role (admins,roles)
+        values
+        <foreach item="item" index="index" collection="list"
+                 separator=",">
+            (#{item.admins},#{item.roles})
+        </foreach>
+    </insert>
+
+    <delete id="deleteRoles" parameterType="java.lang.Long">
+		DELETE FROM tb_admin_role
+		WHERE admins = #{id}
+	</delete>
+
+    <!-- 批量删除 -->
+    <delete id="deleteRolesByAdmin">
+        DELETE FROM tb_admin_role
+        WHERE
+        admins in
+        <foreach item="item" index="index" collection="array" open="("
+                 separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+
+    <!-- 修改 -->
+    <update id="update" parameterType="Admin">
+        UPDATE TB_ADMIN SET
+        <if test="password != null and password != ''">
+            password = #{password},
+        </if>
+        email = #{email},
+        name = #{name},
+        department = #{department},
+        loginFailureCount = #{loginFailureCount},
+        isLocked = #{isLocked},
+        lockedDate = #{lockedDate},
+        loginDate = #{loginDate},
+        loginIp = #{loginIp},
+        head_img_url = #{headImgUrl},
+        createDate = #{createDate},
+        modifyDate = #{modifyDate},
+        orders = #{orders}
+        WHERE
+        id = #{id}
+    </update>
+
+    <!-- 批量删除 -->
+    <delete id="deleteAll">
+        DELETE FROM TB_ADMIN
+        WHERE
+        id IN
+        <foreach item="item" index="index" collection="array" open="("
+                 separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+
+    <select id="count" resultType="java.lang.Long">
+		SELECT COUNT(*) FROM TB_ADMIN
+	</select>
+
+</mapper>

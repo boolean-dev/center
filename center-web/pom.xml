@@ -15,6 +15,12 @@
 
     <dependencies>
 
+        <dependency>
+            <groupId>com.booleandev</groupId>
+            <artifactId>center-server</artifactId>
+            <version>${center-version}</version>
+        </dependency>
+
         <!-- thymeleaf begin-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
