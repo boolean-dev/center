@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="UserMapper">
+<mapper namespace="com.booleandev.center.mapper.UserMapper">
 
-    <select id="findByUsername" parameterType="map" resultMap="com.booleandev.center.server.entity.User">
+    <select id="findByUsername" parameterType="map" resultType="com.booleandev.center.entity.User">
         SELECT
             *
         FROM t_user t
